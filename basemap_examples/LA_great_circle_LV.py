@@ -5,7 +5,7 @@ Plot of great circle with matplotlib's basemap.
 @author: walter
 """
 
-import mpl_toolkits
+#import mpl_toolkits
 from mpl_toolkits import basemap
 from mpl_toolkits.basemap import Basemap
 import numpy as np

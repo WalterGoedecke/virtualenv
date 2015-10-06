@@ -112,7 +112,7 @@ m.fillcontinents(color='coral', lake_color='aqua')
 m.drawparallels(np.arange(-90.,91.,30.))
 m.drawmeridians(np.arange(-180.,181.,60.))
 m.drawmapboundary(fill_color='aqua')
-plt.title("Equidistant Cylindrical Projection")
+plt.title("Equidistant Cylindrical Projection 2")
 plt.show()
 
 # Save figure. 
