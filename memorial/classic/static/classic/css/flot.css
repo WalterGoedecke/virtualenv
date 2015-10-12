@@ -1,0 +1,19 @@
+body { font-family: Verdana, Arial, sans-serif; font-size: 12px; }
+{# #placeholder { width: 450px; height: 200px; } #}
+#SFSplaceholder { width: 450px; height: 200px; }
+#ephem_plot1 { width: 500px; height: 250px; }
+#ephem_plot2 { width: 500px; height: 250px; }
+#irrad_plot1 { width: 500px; height: 250px; }
+#irrad_legend1 {
+	{# width: 500px; height: 250px; #} 
+    background-color: #fff;
+    padding: 2px;
+    margin-bottom: 8px;
+    border-radius: 3px 3px 3px 3px;
+    border: 1px solid #E6E6E6;
+    display: inline-block;
+    margin: 0 auto;
+    position: "left",
+}
+
+#comment_form { width: 500px; height: 250px; }
