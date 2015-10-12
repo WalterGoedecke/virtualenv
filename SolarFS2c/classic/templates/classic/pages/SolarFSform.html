@@ -1,0 +1,677 @@
+{# {% extends "pages/page.html" %} #}
+{% extends "base-altered.html" %}
+
+{% load mezzanine_tags i18n %}
+{% load SFS_templatetags %}
+{% load staticfiles %}
+
+{% block main %}
+	{{ block.super }}
+	{% if request.GET.sent %}
+	    {% editable page.form.response %}
+		    {{ page.form.response|richtext_filters|safe }}
+	    {% endeditable %}
+	{% else %}
+	    {% with page.form as page_form %}
+		    {% editable page_form.content %}
+			    {{ page_form.content|richtext_filters|safe }}
+		    {% endeditable %}
+	    {% endwith %}
+
+		<!-- Comment out? -->
+	    {# {% errors_for form %} #}
+	
+		<!-- ------------------------------------- -->
+		<!-- Add HTML code here in template! -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - -->
+
+		Special:<br>
+		{{ special }}<br><br>
+		Extraspecial:<br>
+		{{ extraspecial }}<br>
+		<br>
+
+		<!-------- Plot - inactive -------->
+		<!--/*<script type="text/javascript">
+			var d0 = [
+				[1, 300], [2, 600], [3, 550], [4, 400], [5, 300]
+			];
+			$(document).ready(function () {
+				$.plot($("#placeholder"), [d0]);
+			});
+			$(document).ready(
+				function () {
+					$.plot($("#placeholder"), [d0]);
+				}
+			);
+		</script>*/-->
+		<!-------------------------->
+
+		<!-------- Plot 1 -------->
+		<script type="text/javascript">
+			var azimuth_data = {{ azimuth_data }};
+			var zenith_data = {{ zenith_data }};
+			var dataset1 = [
+				{
+			        label: "Solar Azimuth",
+			        data: azimuth_data,
+			        //yaxis: 1,
+			        color: "#0062FF",
+			        points: { 
+						//symbol: "circle", 
+						symbol: "triangle", 
+						//symbol: "square", 
+						//symbol: "cross", 
+						//symbol: "diamond", 
+						fillColor: "#0062FF", 
+						show: true 
+					},
+			        lines: {show: true}
+			    },
+			    {
+			        label: "Solar Zenith",
+			        data: zenith_data,
+			        xaxis: 2,
+			        //yaxis: 2,
+			        color: "#FF0000",
+			        points: { symbol: "circle", fillColor: "#FF0000", show: true },
+			        lines: { show: true }
+			    }
+			];
+			var options1 = {
+			    series: {
+				    //lines: {show: true, highlightColor:'#000099'},
+				    //points: {show: true},
+				    shadowSize: 5
+			    },
+			    xaxes: [
+					{
+						mode: "time",
+				        position: "top",
+				        //tickSize: [6, "minute"],
+				        tickSize: [{{ tick_size }}, '{{ tick_unit }}'],
+						alignTicksWithAxis: 1,
+				        //tickLength: 0,
+				        //axisLabel: "Date",
+				        axisLabel: "UTC Time",
+				        axisLabelColour: 'teal',
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 10,
+				        color: "black",
+						//timeformat: "%Y/%m/%d" //year, month, day
+				        //timeformat: "%m/%d",
+						//timeformat: "%H:%M:%S" //hour, minute, second
+						//timeformat: "%H:%M"
+						timeformat: "{{ time_format }}"
+			    	},{
+						mode: "time",
+						timezone: "browser",  // "browser" for local to the client or timezone for timezone-js 
+				        position: "bottom",
+				        tickSize: [{{ tick_size }}, '{{ tick_unit }}'],
+				        //tickLength: 0,
+				        //axisLabel: "Date",
+				        axisLabel: "Local Time ({{ axis_label }} - {{ local_timezone }})",
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 10,
+				        color: "black",
+						//timeformat: "%H:%M:%S" //hour, minute, second
+						//timeformat: "%H:%M"
+						//timeformat: "%m-%d %H"
+						timeformat: "{{ time_format }}"
+			    	}
+				],
+			    yaxis: {
+					//alignTicksWithAxis: 1,
+			        position: "left",
+					//color: "blue",
+			        tickDecimals: 1,
+			        axisLabel: "Degrees",
+			        axisLabelUseCanvas: true,
+			        axisLabelFontSizePixels: 12,
+			        axisLabelFontFamily: 'Verdana, Arial',
+			        axisLabelPadding: 5,
+			        //axisLabelColour: 'blue'
+			    },
+
+				legend: {
+				    noColumns: 0,
+				    labelFormatter: function (label, series) {
+				        //return "<font color=\"white\">" + label + "</font>";
+				        return "<font color=\"black\">" + label + "</font>";
+				    },            
+				    //backgroundColor: "#000",
+				    //backgroundOpacity: 0.9,
+				    backgroundOpacity: 0.7,
+				    labelBoxBorderColor: "#000000",
+				    position: "nw"
+				},
+				grid: {
+				    hoverable: true,
+				    borderWidth: 3,
+				    mouseActiveRadius: 50,
+				    //backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
+				    //axisMargin: 10
+				}
+			};
+			$(document).ready(	function () {
+				$.plot($("#ephem_plot1"), dataset1, options1);
+   				$("#ephem_plot1").UseTooltip();
+			});
+
+		</script>
+		<!-------------------------->
+
+		<!-------- Plot 2 -------->
+		<script type="text/javascript">
+			var dataset2 = [
+				{
+			        label: "Solar Azimuth",
+			        data: azimuth_data,
+			        yaxis: 1,
+			        color: "#0062FF",
+			        points: { symbol: "triangle", fillColor: "#0062FF", show: true },
+			        lines: {show: true}
+			    },
+			    {
+			        label: "Solar Zenith",
+			        data: zenith_data,
+			        xaxis: 2,
+			        yaxis: 2,
+			        color: "#FF0000",
+			        points: { symbol: "circle", fillColor: "#FF0000", show: true },
+			        lines: { show: true }
+			    }
+			];
+			var options2 = {
+			    series: {
+				    //lines: {show: true, highlightColor:'#000099'},
+				    //points: {show: true},
+				    shadowSize: 5
+			    },
+			    xaxes: [
+					{
+						mode: "time",
+				        position: "top",
+				        //tickSize: [6, "minute"],
+				        tickSize: [{{ tick_size }}, '{{ tick_unit }}'],
+						alignTicksWithAxis: 1,
+				        //tickLength: 0,
+				        //axisLabel: "Date",
+				        axisLabel: "UTC Time",
+				        axisLabelColour: 'teal',
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 10,
+				        color: "black",
+						//timeformat: "%Y/%m/%d" //year, month, day
+				        //timeformat: "%m/%d",
+						//timeformat: "%H:%M:%S" //hour, minute, second
+						timeformat: "{{ time_format }}"
+			    	},{
+						mode: "time",
+						timezone: "browser",  // "browser" for local to the client or timezone for timezone-js 
+				        position: "bottom",
+				        //tickSize: [6, "minute"],
+				        tickSize: [{{ tick_size }}, '{{ tick_unit }}'],
+				        //tickLength: 0,
+				        //axisLabel: "Date",
+				        axisLabel: "Local Time ({{ axis_label }} - {{ local_timezone }})",
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 10,
+				        color: "black",
+						//timeformat: "%H:%M:%S" //hour, minute, second
+						timeformat: "{{ time_format }}"
+			    	}
+				],
+			    yaxes: [
+					{
+						//alignTicksWithAxis: 1,
+				        position: "left",
+						color: "blue",
+				        tickDecimals: 1,
+				        axisLabel: "Azimuth (deg)",
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 5,
+				        axisLabelColour: 'blue'
+				    },{
+						alignTicksWithAxis: 2,
+				        position: "right",
+						color: "red",
+				        tickDecimals: 1,
+				        axisLabel: "Zenith (deg)",
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 5, 
+				        axisLabelColour: 'red'
+				    }
+				],
+
+				legend: {
+				    noColumns: 0,
+				    labelFormatter: function (label, series) {
+				        //return "<font color=\"white\">" + label + "</font>";
+				        return "<font color=\"black\">" + label + "</font>";
+				    },            
+				    //backgroundColor: "#000",
+				    //backgroundOpacity: 0.9,
+				    backgroundOpacity: 0.7,
+				    labelBoxBorderColor: "#000000",
+				    position: "ne"
+				},
+				grid: {
+				    hoverable: true,
+				    borderWidth: 3,
+				    mouseActiveRadius: 50,
+				    //backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
+				    axisMargin: 10
+				}
+			};
+			$(document).ready(	function () {
+				$.plot($("#ephem_plot2"), dataset2, options2);
+   				$("#ephem_plot2").UseTooltip();
+			});
+
+		</script>
+		<!-------------------------->
+
+		<!-------- Plot 3 -------->
+		<script type="text/javascript">
+			var DHI_data = {{ DHI_data }};
+			var DNI_data = {{ DNI_data }};
+			var GHI_data = {{ GHI_data }};
+			var DB_data = {{ DB_data }};
+			var dataset3 = [
+				{
+			        label: "DHI",
+			        data: DHI_data,
+			        color: "magenta",
+			        points: { 
+						symbol: "circle", 
+						//symbol: "triangle", 
+						//symbol: "square", 
+						//symbol: "cross", 
+						//symbol: "diamond", 
+						fillColor: "magenta", 
+						show: true 
+					},
+			        lines: {show: true}
+			    },
+			    {
+			        label: "DNI",
+			        data: DNI_data,
+			        xaxis: 2,
+			        color: "orange",
+			        points: { symbol: "square", fillColor: "#orange", show: true },
+			        lines: { show: true }
+			    },
+			    {
+			        label: "GHI",
+			        data: GHI_data,
+			        xaxis: 2,
+			        color: "green",
+			        points: { symbol: "cross", fillColor: "green", show: true },
+			        lines: { show: true }
+			    },
+			    {
+			        label: "DB",
+			        data: DB_data,
+			        xaxis: 2,
+			        color: "cyan",
+			        points: { symbol: "diamond", fillColor: "cyan", show: true },
+			        lines: { show: true }
+			    }
+			];
+			var options3 = {
+			    series: {
+				    //lines: {show: true, highlightColor:'#000099'},
+				    //points: {show: true},
+				    shadowSize: 5
+			    },
+			    xaxes: [
+					{
+						mode: "time",
+				        position: "top",
+				        //tickSize: [6, "minute"],
+				        tickSize: [{{ tick_size }}, '{{ tick_unit }}'],
+						alignTicksWithAxis: 1,
+				        //tickLength: 0,
+				        //axisLabel: "Date",
+				        axisLabel: "UTC Time",
+				        axisLabelColour: 'teal',
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 10,
+				        color: "black",
+						//timeformat: "%Y/%m/%d" //year, month, day
+				        //timeformat: "%m/%d",
+						//timeformat: "%H:%M:%S" //hour, minute, second
+						//timeformat: "%H:%M"
+						timeformat: "{{ time_format }}"
+			    	},{
+						mode: "time",
+						timezone: "browser",  // "browser" for local to the client or timezone for timezone-js 
+				        position: "bottom",
+				        //tickSize: [3, "day"],
+				        //tickSize: [10, "minute"],
+				        tickSize: [{{ tick_size }}, '{{ tick_unit }}'],
+				        //tickLength: 0,
+				        //axisLabel: "Date",
+				        //axisLabel: "Local Time (hr:min - {{ local_timezone }})",
+				        axisLabel: "Local Time ({{ axis_label }} - {{ local_timezone }})",
+				        axisLabelUseCanvas: true,
+				        axisLabelFontSizePixels: 12,
+				        axisLabelFontFamily: 'Verdana, Arial',
+				        axisLabelPadding: 10,
+				        color: "black",
+						//timeformat: "%H:%M:%S" //hour, minute, second
+						//timeformat: "%H:%M"
+						timeformat: "{{ time_format }}"
+			    	}
+				],
+			    yaxis: {
+					//alignTicksWithAxis: 1,
+					//color: "blue",
+			        tickDecimals: 1,
+			        axisLabel: "Flux (W/m^2)",
+			        axisLabelUseCanvas: true,
+			        axisLabelFontSizePixels: 12,
+			        axisLabelFontFamily: 'Verdana, Arial',
+			        axisLabelPadding: 5,
+			        //axisLabelColour: 'blue'
+			    },
+				legend: {
+					container: "#irrad_legend1",
+				    noColumns: 1,
+					show: true, 
+				},
+				grid: {
+				    hoverable: true,
+				    borderWidth: 3,
+				    mouseActiveRadius: 50,
+				    //backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
+				    //axisMargin: 10
+				}
+			};
+			$(document).ready(	function () {
+				$.plot($("#irrad_plot1"), dataset3, options3);
+   				$("#irrad_plot1").UseTooltip();
+			});
+
+		</script>
+		<!-------------------------->
+
+		<!-------- Plot 4 -------->
+		<!-------------------------->
+
+		<!-------- Subplot -------->
+		<script type="text/javascript">
+			// **************************************
+			// Tooltip functionality
+			// * * * * * * * * * *  * * * * * * * * * * * * * * *
+			var previousPoint = null, previousLabel = null;
+
+			$.fn.UseTooltip = function () {
+			    $(this).bind("plothover", function (event, pos, item) {
+			        if (item) {
+			            if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+			                previousPoint = item.dataIndex;
+			                previousLabel = item.series.label;
+			                $("#tooltip").remove();
+			                
+			                var x = item.datapoint[0];
+			                var y = item.datapoint[1];
+			
+							var date = new Date(x);
+							var formatted_time = formatTime(date);
+							//special = date.split(':')
+							//alert(date)
+							//test = special
+							//test = date.getHours()
+ 
+			                var color = item.series.color;
+			
+			                showTooltip(item.pageX, item.pageY, color,
+			                            //"<strong>" + item.series.label + "</strong>:"  +
+			                            //"<strong>" + item.series.label + "</strong>:<br>" + date
+										//	+ " <strong>" + y + "</strong>"
+										date + "<br><strong>" + item.series.label + ": " + y + "</strong>"
+							);
+			            }
+			        } else {
+			            $("#tooltip").remove();
+			            previousPoint = null;
+			        }
+			    });
+			};
+
+			function showTooltip(x, y, color, contents) {
+			    $('<div id="tooltip">' + contents + '</div>').css({
+			        position: 'absolute',
+			        display: 'none',
+			        top: y - 40,
+			        left: x - 120,
+			        border: '2px solid ' + color,
+			        padding: '3px',
+			        'font-size': '9px',
+			        'border-radius': '5px',
+			        'background-color': '#fff',
+			        'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+			        opacity: 0.9
+			    }).appendTo("body").fadeIn(200);
+			}
+
+			// * * * * * * * * * *  * * * * * * * * * * * * * * *
+			// End tooltip 
+			// **************************************
+
+			// **************************************
+			// Additional functions
+			// * * * * * * * * * *  * * * * * * * * * * * * * * *
+			function formatTime(jsTime) {
+				/* Add leading zeroes to jsTime when hours, minutes, or seconds are < 10.. 
+					e.g., formatTime("1:3:2") returns "01:03:02" */
+
+				hour =  jsTime.getHours() < 10 ? ("0" + jsTime.getHours()) : jsTime.getHours();
+				minute = jsTime.getMinutes() < 10 ? ("0" + jsTime.getMinutes()) : jsTime.getMinutes();
+				second = jsTime.getSeconds() < 10 ? ("0" + jsTime.getSeconds()) : jsTime.getSeconds();
+				time = hour + ':' + minute + ':' + second
+				return time 
+			}
+
+			function formatDate(jsDate){
+			  // add leading zeroes to jsDate when days or months are < 10.. 
+			  // i.e.
+			  //     formatDate(new Date("1/3/2013") 
+			  // returns
+			  //    "01/03/2103"
+			  ////////////////////
+			  return ( jsDate.getDate()<10?("0"+jsDate.getDate()):jsDate.getDate() ) + "/" + 
+			      ( (jsDate.getMonth()+1)<10?("0"+(jsDate.getMonth()+1)):(jsDate.getMonth()+1) ) + "/" + 
+			      jsDate.getFullYear();
+			}
+			// Converts meters to feet. 
+			function meters2feet(meters) {
+			    return meters/0.3048;
+			}
+
+			// * * * * * * * * * *  * * * * * * * * * * * * * * *
+			// End functions 
+			// **************************************
+
+		</script>
+
+		<!-------------------------->
+
+		<!-------- Plot - inactive -------->
+		<!--<h2>Flot Line Graph</h2>
+		<div id="placeholder"></div>-->
+		<!-------------------------->
+
+		<!-------- Plot - inactive -------->
+		<!-- <h2>Flot Plot 2</h2>
+		<div id="SFSplaceholder"></div> -->
+		<!-------------------------->
+
+		<!-------- Plot 1 -------->
+		<center>
+			<h3>Flot Plot 1</h3>
+			<div id="ephem_plot1"></div>
+		</center>
+		<!-------------------------->
+
+		<!-------- Plot 2 -------->
+		<center>
+			<h3>Flot Plot 2</h3>
+			<div id="ephem_plot2"></div>
+		</center>
+		<!-------------------------->
+
+		<!-------- Plot 3 -------->
+		<center>
+			<h3>Flot Plot 3</h3>
+			<table>
+				<tr>
+					<td><div id="irrad_plot1"></div></td>
+					<td><div id="irrad_legend1"></div></td>
+				</tr>
+			</table>
+		</center>
+		<!-------------------------->
+
+		<!-------- Plot 4 -------->
+		<!-------------------------->
+
+		<div id=title1>
+		    Solar FS Calculations App
+		</div>
+		<div class=text1>
+		    This application allows an input of a geographic location, a time range, and solar cell panel orientation. 
+			The output is the effective radiant flux incident upon the panel.  
+		</div>
+		<blockquote>
+			<blockquote>
+		        <div class=text1>
+					Input your geographic location, e.g., 555 Sun St., Boulder, CO:
+        		</div>
+				    <form class="mezzanine-form" method="post"{% if form.is_multipart %} action='' enctype="multipart/form-data"{% endif %}>
+				        {% fields_for form %}
+				        <div class="form-actions">
+							{% csrf_token %}
+						    {# "pf" is profile-form, the form object. #}
+					        <div class="text3">
+							    {{ pf.as_p }}
+								<br> 
+					        </div>
+				            <input class="btn btn-primary btn" type="submit"
+			                value="{% if page.form.button_text %}{{ page.form.button_text }}{% else %}{% trans "Submit" %}{% endif %}">
+				        </div>
+				    </form>
+					<br>
+
+					<span class=title3>Address slug:</span> {{ address_slug }}
+					<br>
+					<span class=title3>Formatted address:</span> {{ last_calc.formatted_address }}
+					<br>
+					<span class=title3>Coordinates (latitude, longitude):</span> {{ last_calc.coordinates }}
+					<br>
+					<span class=title3>Elevation (meters AMSL):</span> {{ last_calc.elevation }}
+					<span class=title3>(feet): </span><span id="feet"></span>
+					<script>document.getElementById("feet").innerHTML = meters2feet({{ last_calc.elevation }})</script>
+					<br><br>
+			        <div class=title3>
+						Time interval:
+			        </div>
+			          <div class="table">
+						<div class="tbl_row">
+							<div class="cell_caption">Start:</div>
+							<div class="cell_caption">Stop:</div>
+							<div class="cell_caption">Frequency:</div>
+						</div>
+						<div class="tbl_row">
+							<div class="cell_caption">{{ last_calc.begin }}</div>
+							<div class="cell_caption">{{ last_calc.end }}</div>
+							<div class="cell_caption">{{ last_calc.frequency }}</div>
+						</div>
+		            </div>
+					<span class=title3>Delta time (hours): </span>{{ delta_time_hr }}
+					<span class=title3>(days): </span>{{ delta_time_day }}
+					<br><br>
+
+			        <div class=title3>
+						Solar ephemeris: <br>
+			        </div>
+			        <div class=text2>
+					    {% for line in ephem_sequence_lines %}
+							{{ line }}<br>
+					    {% endfor %}
+			        </div>
+	
+			        <div class=title3>
+						Statistics: <br>
+			        </div>
+			        <div class=text2>
+					    {% for line in stat_lines %}
+							{{ line }}<br>
+					    {% endfor %}
+			        </div>
+	
+			        <div class=title3>
+						Irradiance: <br>
+			        </div>
+			        <div class=text2>
+					    {% for line in irradiance_lines %}
+							{{ line }}<br>
+					    {% endfor %}
+			        </div>
+					<br>
+			          <div class="table">
+			            <div class="tbl_row">
+							<div class="cell_pix">
+								<a href='{{ STATIC_URL }}plots/{{ last_calc.pix1 }}' target='_blank'>
+									<img src='{{ STATIC_URL }}plots/{{ last_calc.pix1 }}' border='0' height='74' %}'>
+								</a>
+							</div>
+							<div class="cell_pix">
+								<a href='{{ STATIC_URL }}plots/{{ last_calc.pix2 }}' target='_blank'>
+									<img src='{{ STATIC_URL }}plots/{{ last_calc.pix2 }}' border='0' height='74' %}'>
+								</a>
+							</div>
+							<div class="cell_doc">
+								<a href='{{ STATIC_URL }}docs/{{ last_calc.doc }}' target='_blank'>
+									{{ last_calc.doc }}
+								</a>
+							</div>
+			            </div>
+						<div class="tbl_row">
+							<div class="cell_caption">Ephemeris plot</div>
+							<div class="cell_caption">Irradiance plot</div>
+							<div class="cell_caption">Data document</div>
+						</div>
+			          </div>
+
+			</blockquote>
+		</blockquote>
+		<!-- ------------------------------------- -->
+		    
+	{% endif %}
+	
+{% endblock %}
+
+
+{% block extra_js %}
+	{{ block.super }}
+	<script>
+		$(function() {$('.mezzanine-form :input:visible:enabled:first').focus();});
+	</script>
+{% endblock %}
