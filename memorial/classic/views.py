@@ -9,7 +9,11 @@ from django.core.exceptions import *
 # Make home page editable.
 from mezzanine.pages.views import page  
 
+<<<<<<< HEAD
 from memorial.settings import STATIC_URL
+=======
+from memorial.settings import STATIC_URL, PROJECT_ROOT
+>>>>>>> 137e84e7830c30b94a36fca888443766f3ee6288
 from django.forms import ModelForm, Textarea
 
 import datetime, time # Convert year, month, day, &c., to seconds since 1970. 
@@ -132,7 +136,12 @@ def stdform(request):
         strDHIarray.append(line.split()[2]) # Azimuth of sun. 
         strDNIarray.append(line.split()[3]) # Azimuth of sun. 
         strGHIarray.append(line.split()[4]) # Azimuth of sun. 
+<<<<<<< HEAD
         strDBarray.append(line.split()[5]) # Azimuth of sun. 
+=======
+        strDBarray.append(line.split()[5]) # Azimuth of sun.
+        pass 
+>>>>>>> 137e84e7830c30b94a36fca888443766f3ee6288
 
     # Create a float array from the string list.  
     fltAzimuthArray = [float(s) for s in strAzimuthArray]  
@@ -180,8 +189,13 @@ def stdform(request):
                                                      azimuth_data=azimuth_data, zenith_data=zenith_data, 
                                                      DHI_data=DHI_data, DNI_data=DNI_data, GHI_data=GHI_data, DB_data=DB_data, 
                                                      local_timezone=local_timezone,  
+<<<<<<< HEAD
                                                      special=special, extraspecial=extraspecial
                                                      ))
+=======
+                                                     special=special, extraspecial=extraspecial,
+                                                     PROJECT_ROOT=PROJECT_ROOT))
+>>>>>>> 137e84e7830c30b94a36fca888443766f3ee6288
 
 
 

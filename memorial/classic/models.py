@@ -35,8 +35,13 @@ class Calculation(models.Model):
     address_slug = models.SlugField(max_length=120, blank=True, null=True)
     formatted_address = models.TextField(max_length=120, null=True, blank=True)
     coordinates = models.CharField(max_length=80, blank=True, null=True, verbose_name='latitude, longitude')
+<<<<<<< HEAD
     #elevation = models.CharField(max_length=60, blank=True, null=True, verbose_name='Elevation (AMSL)', default="None'")
     elevation = models.FloatField(default=0.0, blank=True, null=True)
+=======
+    elevation = models.CharField(max_length=60, blank=True, null=True, verbose_name='Elevation (AMSL)', default="None'")
+    #elevation = models.FloatField(default=0.0, blank=True, null=True)
+>>>>>>> 137e84e7830c30b94a36fca888443766f3ee6288
     # Panda variables. 
     begin = models.CharField(max_length=30, default='2015, 7, 1, 11', blank=True, null=True)
     end = models.CharField(max_length=30, default='2015, 7, 1, 12', blank=True, null=True)
