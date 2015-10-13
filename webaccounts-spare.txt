@@ -1,0 +1,15 @@
+Stack Exchange
+stackoverflow.com
+walter@snowbears.org Carbon12@
+
+
+To Stack Exchange: 
+
+I have a peculiar problem with the python module scipy.io. I am using Python 3.4 in a virtual emvironment. While I can import scipy within python, I get an error message "ImportError: /home/dv8000/virtualenv/venv-py3.4/lib/python3.4/lib-dynload/_ctypes.cpython-34m-i386-linux-gnu.so: undefined symbol: _PyTraceback_Add"
+
+I can import scipy.io from python 2.7, not in the virtual environment, and I can import scipy.io within anaconda3, which has python 3.4. I've uninstalled scipy and reinstalled it a few times with variations, but without being able to recover scypy.io. I am developing a django appication, and I'm sure I could import scipy.io in the past. Any suggestions or ideas would be appreciated. 
+
+Thanks,
+Walter
+
+
