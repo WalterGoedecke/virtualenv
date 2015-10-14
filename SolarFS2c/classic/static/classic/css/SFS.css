@@ -1,12 +1,8 @@
 {# **** Top banner & logo **** #}
 .headerTable {
 	background: url("images/bgdPattern.gif") repeat-x;
-	width: 94%;
-	padding: 1%; 
-	//margin: 1%; 
-	margin: 1% 3% 2% 3%; 
-	border: 0%;
-  float: center;
+	width: 98%;
+  padding: 0%; margin: 1%; border: 0%;
 }
 .cell_spacer {
   display: table-cell;
@@ -15,15 +11,6 @@
   margin-top: 0;
   height: 3.5em;
   width: 100%;
-}
-
-/******* New container *******/
-.thin_container {
-	width: 80%;
-	padding: 1%; 
-	//margin: 1%; 
-	margin: 2% 10% 0% 10%; 
-	border: 0%;
 }
 
 /* * Index page * */
