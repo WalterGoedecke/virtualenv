@@ -2,6 +2,7 @@
 {% extends "base-altered.html" %}
 
 {% load mezzanine_tags i18n %}
+
 {% load SFS_templatetags %}
 
 {% block main %}
@@ -27,10 +28,7 @@
 		Special:<br>
 		{{ special }}<br><br>
 		{{ extraspecial }}<br>
-		Static: {{ STATIC_URL }}<br>
-		Root: {{ PROJECT_ROOT }}<br>
 		<br>
-
 
 		<!-------- Plot 1 - inactive -------->
 		<!--/*<script type="text/javascript">
@@ -702,17 +700,17 @@
 			          <div class="table">
 			            <div class="tbl_row">
 							<div class="cell_pix">
-								<a href='{{ STATIC_URL }}plots/{{ last_calc.pix1 }}' target='_blank'>
-									<img src='{{ STATIC_URL }}plots/{{ last_calc.pix1 }}' border='0' height='74' %}'>
+								<a href='{{ STATIC_URL }}{{ last_calc.pix1 }}' target='_blank'>
+									<img src='{{ STATIC_URL }}{{ last_calc.pix1 }}' border='0' height='74' %}'>
 								</a>
 							</div>
 							<div class="cell_pix">
-								<a href='{{ STATIC_URL }}plots/{{ last_calc.pix2 }}' target='_blank'>
-									<img src='{{ STATIC_URL }}plots/{{ last_calc.pix2 }}' border='0' height='74' %}'>
+								<a href='{{ STATIC_URL }}{{ last_calc.pix2 }}' target='_blank'>
+									<img src='{{ STATIC_URL }}{{ last_calc.pix2 }}' border='0' height='74' %}'>
 								</a>
 							</div>
 							<div class="cell_doc">
-								<a href='{{ STATIC_URL }}docs/{{ last_calc.doc }}' target='_blank'>
+								<a href='{{ STATIC_URL }}{{ last_calc.doc }}' target='_blank'>
 									{{ last_calc.doc }}
 								</a>
 							</div>

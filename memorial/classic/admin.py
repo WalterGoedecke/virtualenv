@@ -1,7 +1,7 @@
-from django.contrib import admin
+#from django.contrib import admin
 
 # Register your models here.
-from mezzanine.pages.admin import PageAdmin
+#from mezzanine.pages.admin import PageAdmin
 #from .models import DocPage
 
 from classic.models import *

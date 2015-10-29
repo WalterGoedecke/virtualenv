@@ -121,7 +121,7 @@ LANGUAGES = (
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
 # are displayed for error pages. Should always be set to ``False`` in
 # production. Best set to ``True`` in local_settings.py
-DEBUG = True
+DEBUG = False
 
 # Whether a user's session cookie expires when the Web browser is closed.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -144,7 +144,7 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 # Full filesystem path to the project.
 PROJECT_APP_PATH = os.path.dirname(os.path.abspath(__file__))
 PROJECT_APP = os.path.basename(PROJECT_APP_PATH)
-PROJECT_ROOT = os.path.dirname(PROJECT_APP_PATH)
+PROJECT_ROOT = BASE_DIR = os.path.dirname(PROJECT_APP_PATH)
 
 #############
 # DATABASES #
@@ -193,12 +193,9 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     (os.path.join(PROJECT_ROOT, 'classic/static/classic/')),
-    (os.path.join(PROJECT_ROOT, 'classic/static/classic/css/')),
     (os.path.join(PROJECT_ROOT, 'classic/static/classic_std/')),
-    #(os.path.join(PROJECT_ROOT, 'static/')),
     (os.path.join(PROJECT_ROOT, 'static/media/')),
 )
-
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -217,14 +214,15 @@ ROOT_URLCONF = "%s.urls" % PROJECT_APP
 # Always use forward slashes, even on Windows.
 # Don't forget to use absolute paths, not relative paths.
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, "classic/templates/classic"),
-    os.path.join(PROJECT_ROOT, "classic/templates/classic/accounts"), # Need for 'include_strip' and 'ConstantIncludeNode'
-    os.path.join(PROJECT_ROOT, "classic/templates/classic/accounts/includes"), 
-    os.path.join(PROJECT_ROOT, "classic/templates/classic/pages"),
-    os.path.join(PROJECT_ROOT, "classic/templates/classic/pages-store"),
-    os.path.join(PROJECT_ROOT, "classic/templates/classic_std/templates"),
-    os.path.join(PROJECT_ROOT, 'classic/templatetags'),
-    os.path.join(PROJECT_ROOT, "templates"),
+        os.path.join(PROJECT_ROOT, "classic/templates/classic"),
+        os.path.join(PROJECT_ROOT, "classic/templates/classic/accounts"), # Need for 'include_strip' and 'ConstantIncludeNode'
+        os.path.join(PROJECT_ROOT, "classic/templates/classic/accounts/includes"),                      os.path.join(PROJECT_ROOT, "classic/templates/classic/pages"),
+        os.path.join(PROJECT_ROOT, "classic/templates/classic/pages"),
+        os.path.join(PROJECT_ROOT, "classic/templates/classic/pages-store"),
+        
+        os.path.join(PROJECT_ROOT, "classic/templates/classic_std/templates"),
+        os.path.join(PROJECT_ROOT, 'classic/templatetags'),
+        os.path.join(PROJECT_ROOT, "templates"),
 )
 
 ################
