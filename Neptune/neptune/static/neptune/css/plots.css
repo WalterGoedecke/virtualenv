@@ -1,0 +1,232 @@
+{# **** Top banner & logo **** #}
+.headerTable {
+	background: url("images/bgdPattern.gif") repeat-x;
+	width: 98%;
+  padding: 0%; margin: 1%; border: 0%;
+}
+.cell_spacer {
+  display: table-cell;
+  border: none; 
+  padding: 10;
+  margin-top: 0;
+  height: 3.5em;
+  width: 100%;
+}
+
+/* * Index page * */
+.title1 {
+  margin-top: 0.5em;
+  {# margin-left: 1.2em; #}
+  margin-left: 0.2em;
+  {# margin-right: 2em; #}
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  text-align: left;
+  font-size: 2em;
+  font-weight: bold;
+  color: maroon;
+  font-family: times-new-roman, serif;
+	vertical-align: text-bottom;
+}
+.title2 {
+  margin-left: 1.5em;
+  margin-right: 2em;
+  text-align: left;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: maroon;
+  font-family: times-new-roman, serif;
+	vertical-align: text-bottom;
+}
+.title3 {
+  margin-left: 2em;
+  text-align: left;
+  font-weight: bold;
+  color: #737CA1; {# slate blue #}
+  font-family: times-new-roman, serif;
+}
+.title4 {
+  font-family: times-new-roman, serif;
+  font-size: large;
+  font-weight: bold;
+  margin-left: 2em;
+  margin-right: 1em;
+  text-align: left;
+
+}
+.title5 {
+  font-family: times-new-roman, serif;
+  font-size: 2em;
+  font-weight: bold;
+  color: maroon;
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
+.text1 {
+  font-family: Tahoma;
+  font-size: large;
+  margin-left: 1em;
+  margin-right: 2em;
+  text-align: left;
+  color: #2C3539; {# gunmetal #}
+}
+.text2 {
+  font-family: Tahoma;
+  color: #222;
+  font-size: small;
+  text-align: left;
+  margin-left: 2.2em;
+  margin-right: 2em;
+  margin-bottom: 1em;
+	vertical-align: bottom;
+}
+.text3 {
+  font-family: Tahoma;
+  color: #222;
+  font-size: smaller;
+  text-align: left;
+}
+.text4 {
+  font-family: Tahoma;
+  font-size: medium;
+  margin-left: 1em;
+  margin-right: 2em;
+  text-align: left;
+  color: #2C3539; {# gunmetal #}
+}
+.text5 {
+  font-family: Tahoma;
+  font-size: 1em;
+  //margin-left: 1em;
+  //margin-right: 2em;
+  margin: 4px 2em 0 1em;
+	text-align: left;
+  color: #4863A0; {# steel blue #}
+}
+p {
+  font-family: Tahoma;
+  color: #222;
+  text-align: left;
+  font-size: 12px;
+}
+/**** Table construct ****/
+.table {
+  display: table;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 1.0em; 
+  margin-bottom: 15px; 
+  width: 100%;
+}
+.tbl_row {
+  display: table-row;
+  margin: 0px;
+  padding: 0px;
+}
+.cell {
+  display: table-cell;
+  {# border: solid; border-width: thin; #}
+  padding-left: 0px; 
+  padding-right: 4px;
+  text-align: center; 
+}
+.cell_pix {
+  display: table-cell;
+  {# border: solid; border-width: thin; #}
+  border-collapse: collapse;        
+  padding-left: 0px; 
+  padding-right: 4px;
+  text-align: center; 
+}
+.cell_doc {
+  display: table-cell;
+  {# border: solid; border-width: thin; #}
+  padding: 2px;
+  padding-left: 4px;
+  text-align: center; 
+  font-size: 8px;
+  margin-left: 2px;
+  vertical-align: middle;
+  color: blue; 
+  word-break:break-all;
+}
+.cell_caption {
+  display: table-cell;
+  padding-left: 0px; 
+  padding-right: 4px;
+  text-align: center; 
+  font-size: small;
+  vertical-align: middle;
+  word-break:break-all;
+  width: 35%;
+}
+
+/**** Pagination ****/
+.pagination { 
+  /*font-size: large;*/
+	margin-top: 20px;
+	text-align: center;
+}
+.step-links a { font-size: 0.89em; }
+/********************/
+
+/**** Sort, or order-by menu. ****/
+.sort-wrapper {
+	width: 50%;
+	/*background: #999;*/
+  text-align: center; 
+}
+ul.cssMenu, ul.cssMenu ul {
+	list-style:none;
+	margin: 0; 
+	padding: 0;
+	position: relative;
+}
+ul.cssMenu ul { 
+  display:none; /*initially menu item is hidden*/
+  position: absolute; /*absolute positioning is important for menu to float*/
+	/* margin: top right bottom left */
+	margin: 0% 0 0 15%;
+}
+ul#navlist li:hover ul#subnavlist li a {
+  display: block;
+  /*width: 10em;*/
+  border: none;
+  padding: 1px;
+  color: #ffff00;
+}
+/* Displays grey block over drop-down menu. */
+ul.cssMenu li:hover li a {
+  display: block;
+  /*width: 10em;*/
+  border: none;
+  padding: 1px;
+  color: #222;
+	background-color: #ccc;
+}
+/* Hover effect for menu */
+ul.cssMenu li:hover > ul { 
+	display:block;
+}
+/********************/
+
+/**** Search Function ****/
+.button1 {
+	width: 8em;
+	background: #eee;
+	/*background: #ff0000;*/
+  font-size: medium;
+	/*color: #333;*/
+	/*Dark Slate Grey*/  
+	color: #25383C;  
+	text-align: center;
+	border: 1px solid #000;
+	border-radius: 6px;
+	border-color: maroon;
+  /*text-shadow: 1px 1px 1px #000;*/
+	border-spacing: 1em;
+	space: 1em;
+	border-spacing: 10px;
+}
+/********************/

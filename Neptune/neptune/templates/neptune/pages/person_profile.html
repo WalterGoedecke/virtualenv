@@ -1,0 +1,41 @@
+{% extends "neptune/pages/page.html" %}
+
+{% load mezzanine_tags %}
+{% load staticfiles %}
+
+{% block main %}{{ block.super }}
+	<!-- Editable feature doesn't work here. -->
+	{# {% editable page.richtextpage.content %} #}
+		{# {{ page.richtextpage.content|richtext_filters|safe }} #}
+	{# {% endeditable %} #}
+
+	<!-- ----------------------------------- -->
+  <center>
+		<h2>Person Profile:</h2>
+	</center>
+  <!-- ----------------------------------------- -->
+
+  <center>
+		<table border="0" cellpadding="2" width="60%">
+	    <tr>
+	      <td class=title3>Person ID:</td>
+	      <td class=text2>{{ person.Person_ID }}</td>
+	    </tr>
+	    <tr>
+	      <td class=title3>Name:</td>
+	      <td class=text2>{{ person.Name }}</td>
+	    </tr>
+	    <tr>
+	      <td class=title3>Associated Places:</td>
+	      <td class=text2>&nbsp</td>
+	    </tr>
+		  {% for place in places %}
+		    <tr>
+		      <td class=title3>"</td>
+		      <td class=text2>{{ place }}</td>
+		    </tr>
+		  {% endfor %}
+		</table>
+	</center>
+	<br>
+{% endblock %}

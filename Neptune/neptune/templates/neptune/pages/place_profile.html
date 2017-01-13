@@ -1,0 +1,37 @@
+{% extends "neptune/pages/page.html" %}
+
+{% load mezzanine_tags %}
+{% load staticfiles %}
+
+{% block main %}{{ block.super }}
+	<!-- Editable feature doesn't work here. -->
+	{# {% editable page.richtextpage.content %} #}
+		{# {{ page.richtextpage.content|richtext_filters|safe }} #}
+	{# {% endeditable %} #}
+
+	<!-- ----------------------------------- -->
+  <center>
+		<h2>Place Profile:</h2>
+	</center>
+  <!-- ----------------------------------------- -->
+
+  <table border="0" cellpadding="2" width="100%">
+    <tr>
+      <td class=title3>Place ID:</td>
+      <td class=text2>{{ place.Place_ID }}</td>
+    </tr>
+    <tr>
+      <td class=title3>Address Name:</td>
+      <td class=text2>{{ place.Address }}</td>
+    </tr>
+    <tr>
+      <td class=title3>GPS Latitude:</td>
+      <td class=text2>{{ place.Latitude }}</td>
+    </tr>
+    <tr>
+      <td class=title3>GPS Longitude:</td>
+      <td class=text2>{{ place.Longitude }}</td>
+    </tr>
+	</table>
+
+{% endblock %}

@@ -1,0 +1,266 @@
+{# {% extends "neptune/pages/base-geomap.html" %} #}
+{% extends "neptune/pages/base-plots.html" %}
+
+{% load mezzanine_tags %}
+
+{% block extra_head %}
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <title>Google Maps</title>
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=AIzaSyBPR6UrFjtDDWnbYZ2GOghbyTUcXoW4tHU" type="text/javascript"></script>
+{% endblock %}
+
+{% block main %}{{ block.super }}
+
+	<!-- Editable feature doesn't work here. -->
+	{# {% editable page.richtextpage.content %} #}
+		{# {{ page.richtextpage.content|richtext_filters|safe }} #}
+	{# {% endeditable %} #}
+	<!-- ----------------------------------- -->
+
+  <!-- ------------------------------------- -->
+  <!-- GeoJunk map section  -->
+  <!-- - - - - - - - - - - - - - - - - - - - -->
+	<div class="row">
+	  <div class="col-sm-1"></div>
+	  <div class="col-sm-8">
+		  <div class=text-intro>
+				Click on either a map <span class=text-waypoint>waypoint</span> 
+				or a hyperlinked <span class=text-list-label>list-label</span>
+				to view the offerings at an address. You can also sort waypoints 
+				or search for particular items. 
+      </div>
+		  <div class=title-Tangerine>
+				Waypoint Map 
+      </div>
+		</div>
+	  <div class="col-sm-3"></div>
+	</div>
+  <!-- - - - - - - - - - - - - - - - - - - - -->
+  <!-- <body onunload="GUnload()"> -->
+  <!-- you can use tables or divs for the overall layout -->
+  <div class="table_map">
+    <div class="row_map">
+			<!-- Middle column. -->
+      <div class="cell_map">
+				 <br>
+         <div id="map" style="width: 800px; height: 600px;"></div>
+      </div>
+			<!-- Right column. -->
+			<!-- Empty for viewing library waypoints only. -->
+			<!-- ------------------------------------- -->
+    </div>
+  </div>
+
+  <!--<a href="basic2.htm">Back to the tutorial page</a><br>
+  <a href="basic3.htm">Back to the tutorial page</a><br>-->
+
+  <noscript><b>JavaScript must be enabled in order for you to use Google Maps.</b> 
+    However, it seems JavaScript is either disabled or not supported by your browser. 
+    To view Google Maps, enable JavaScript by changing your browser options, and then 
+    try again.
+  </noscript>
+
+
+  <script type="text/javascript">
+	  //<![CDATA[
+	
+	  if (GBrowserIsCompatible()) {
+	    
+			// ---- Pre-map functions ----
+	    // this variable will collect the html which will eventually be placed in the side_bar
+	    var side_bar_html = "";
+	  
+	    // arrays to hold copies of the markers and html used by the side_bar
+	    // because the function closure trick doesn't work there
+	    var gmarkers = [];
+	
+	    // A function to create the marker and set up the event window
+	    function createMarker(point, name, html) {
+	      var marker = new GMarker(point);
+	      GEvent.addListener(marker, "click", function() {
+	        marker.openInfoWindowHtml(html);
+	      });
+	      // save the info we need to use later for the side_bar
+	      gmarkers.push(marker);
+	      // add a line to the side_bar html
+	      //side_bar_html += '<a href="javascript:myclick(' + (gmarkers.length-1) + ')">' + name + '<\/a><br>';
+        return marker;
+	    }
+
+	    // Creates library waypoint markers.
+	    // A function to create the marker and set up the event window
+			var new_icon = new GIcon()
+			//new_icon.image = "http://nhw.pl/images/cross.png"
+			//new_icon.image = "{{STATIC_URL}}icons/cross.png"
+			//Small orange house icon. 
+			new_icon.image = "{{STATIC_URL}}icons/icon10.png"
+			new_icon.size = new GSize(14,14)
+      new_icon.iconAnchor = new GPoint(8,9)
+      new_icon.infoWindowAnchor = new GPoint(7,7)
+			var opt
+			opt = {}
+			opt.icon = new_icon
+			opt.draggable = false
+      opt.clickable = false
+      opt.dragCrossMove = true
+	    function createLibMarker(point, name, html) {
+	      //var marker = new GMarker(point, opt); //Doesn't work.
+	      //var marker = new GMarker(point); //Works.
+
+				var marker = new GMarker(point, {icon: opt.icon});
+
+	      GEvent.addListener(marker, "click", function() {
+	        marker.openInfoWindowHtml(html);
+	      });
+	      // save the info we need to use later for the side_bar
+	      gmarkers.push(marker);
+	      // add a line to the side_bar html
+	      //side_bar_html += '<a href="javascript:myclick(' + (gmarkers.length-1) + ')">' + name + '<\/a><br>';
+        return marker;
+	    }
+
+	    // This function picks up the click and opens the corresponding info window
+	    function myclick(i) {
+	      GEvent.trigger(gmarkers[i], "click");
+	    }
+		
+	    // Put the assembled side_bar_html contents into the side_bar div
+	    //document.getElementById("side_bar").innerHTML = side_bar_html;
+	
+			// ---- End pre-map functions ----
+
+	    // create the map
+	    var map = new GMap2(document.getElementById("map"));
+
+			// ---- Map functions ----
+			//On click determine the map's center and push to the URL. 
+			//GEvent.addListener(map, "click", function(e) {
+			GEvent.addListener(map, "mousemove", function(e) {
+				var center = map.getCenter();
+				// Diagnostic window opens in center to show map's center GPS coordinates. 
+				//map.openInfoWindow(map.getCenter(), document.createTextNode(center.toString()));
+				//map.setZoom(7); //Works.
+				var [centerLat, centerLon] = center.toString().split(',') 
+				var zoomScale = map.getZoom();
+				var centerLatLon = '/home/{{ sort_arg }}/' + centerLat.split('(')[1] + ',' + centerLon.split(')')[0] + '/' 
+				//var centerLatLonZoom = '/home/{{ sort_arg }}/' + centerLat.split('(')[1] + ',' + centerLon.split(')')[0] + ',' + zoomScale + '/' + {{ choice }} + '/'
+				var centerLatLonZoom = '/junkster/create-update-lib-waypoint/{{ sort_arg }}/' + centerLat.split('(')[1] + ',' + centerLon.split(')')[0] + ',' + zoomScale + '/' + {{ choice }} + '/'
+				// Diagnostic window opens in center to show map's center GPS coordinates and zoom scale.  
+				//map.openInfoWindow(map.getCenter(), document.createTextNode(centerLatLon.toString()));
+				//map.openInfoWindow(map.getCenter(), document.createTextNode(centerLatLonZoom.toString()));
+				//Strip out the space between the lat & lon, i.e., "lat, lon" becomes "lat,lon."  
+				//history.pushState({}, '', centerLatLon); 
+				history.pushState({}, '', centerLatLonZoom); 
+			});
+			// ---- End map functions ----
+
+			//map.setCenter(new GLatLng(35.689527, 139.691827), 13);
+	    map.addControl(new GLargeMapControl());
+	    map.addControl(new GMapTypeControl());
+			// "8," "9" are the view scales.  
+	    //map.setCenter(new GLatLng( 43.907787,-79.359741), 8);
+	    //map.setCenter(new GLatLng( 43.907787,-79.359741), 9);
+	    // Set map center at Martin Drive & Bear Creek, Martin Acres.
+			// "15" is the view scale, e.g., 15 is larger map scale than 8. . 
+			//map.setCenter(new GLatLng(39.991622,-105.250098), 15);
+			//map.setCenter(new GLatLng({{ lat }}, {{ lon }}), 15);
+			map.setCenter(new GLatLng({{ lat }}, {{ lon }}), {{ zoom }});
+
+			//map.openInfoWindow(map.getCenter(), document.createTextNode("Hello, world"));
+			//var center = map.getCenter();
+			//map.openInfoWindow(map.getCenter(), document.createTextNode(center.toString()));
+
+	    // ---- Geojunk waypoints not displayed here. ----
+	    // ---- Display library waypoints. ----
+	    {% if librarypoints != 0 %}
+		    {% for librarypoint in librarypoints %}
+					//Display library waypoint only if Geo_Marker is True.
+			    {% if librarypoint.Geo_Marker %}
+	
+				    // Add the points.    
+			      var lat = {{ librarypoint.GPS_Lat }};
+			      var lng = {{ librarypoint.GPS_Lon }};
+			      var point = new GLatLng(lat, lng);
+						//Be sure to quote "Label" to allow single quotes.
+			      var label = "{{ librarypoint.Label }}";
+	
+			      var html = '\
+							<!-- Display 2 column width table with 2 pictures. -->\
+					    {% if librarypoint.Pix_1 and librarypoint.Pix_2 %}\
+								<div class=table_popup2>\
+									<div class=tbl_row>\
+										<div class=cell_popup>\
+											{{ librarypoint.Content|linebreaks }}\
+										</div>\
+									</div>\
+									<div class=tbl_row>\
+										<div class=cell_pix>\
+											<a href="{{ MEDIA_URL }}{{ librarypoint.Pix_1 }}" target="_blank">\
+												<img src="{{ MEDIA_URL }}{{ librarypoint.Pix_1 }}" width=210>\
+											</a>\
+											<a href="{{ MEDIA_URL }}{{ librarypoint.Pix_2 }}" target="_blank">\
+												<img src="{{ MEDIA_URL }}{{ librarypoint.Pix_2 }}" width=210>\
+											</a>\
+										</div>\
+									</div>\
+								</div>\
+						  {% else %}\
+								<!-- Display only one column. -->\
+								<div class=table_popup1>\
+									<div class=tbl_row>\
+										<div class=cell_popup>\
+											{{ librarypoint.Content|linebreaks }}\
+										</div>\
+									</div>\
+									<!-- Display only if first picture. -->\
+							    {% if librarypoint.Pix_1 %}\
+										<div class=tbl_row>\
+											<div class=cell_pix>\
+												<a href="{{ MEDIA_URL }}{{ librarypoint.Pix_1 }}" target="_blank">\
+													<img src="{{ MEDIA_URL }}{{ librarypoint.Pix_1 }}" width=210>\
+												</a>\
+											</div>\
+										</div>\
+							    {% endif %}\
+								</div>\
+				    	{% endif %}\
+						';
+	
+			      // Create the marker.
+			      var marker = createLibMarker(point, label, html);
+			      map.addOverlay(marker);
+	
+			      // Put the assembled side_bar_html contents into the side_bar div.
+			      //document.getElementById("side_bar").innerHTML = side_bar_html;
+			    {% endif %}
+		    {% endfor %}
+	    {% endif %}
+	    // ---- End library waypoints. -----
+
+	  }
+	  else {
+	    alert("Sorry, the Google Maps API is not compatible with this browser");
+	  }
+	
+		//map.getCenter().toString()
+		//var center = map.getCenter();
+		//map.openInfoWindow(map.getCenter(), document.createTextNode(center.toString()));
+
+	  // This Javascript is based on code provided by the
+	  // Community Church Javascript Team
+	  // http://www.bisphamchurch.org.uk/   
+	  // http://econym.org.uk/gmap/
+	
+	  //]]>
+  </script>
+
+  <div class="navbar-collapse collapse">
+    {% search_form "all" %}
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - -->
+  <!-- End GeoJunk map section  -->
+  <!-- ------------------------------------- -->
+	{% block geolist %}{% endblock %}
+
+{% endblock %}

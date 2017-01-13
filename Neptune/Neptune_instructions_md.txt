@@ -1,0 +1,23 @@
+**These are the instructions for using the person-places app.**
+
+* On the home page, type **neptune/** after the URL to get to the assignment. The default page is the person list.
+  * Adding **neptune/person-list/** after the home URL will also get you to the person list, as will selecting **List/update/create person** at the lower left after logging in.
+  * You can also select the **[Person-Places Instructions](http://www.geojunk.org/geojunk.fcgi/person-places-instructions/)** menu item at the top.
+* There are five columns:
+    * Column 1 shows the person id number; selecting this opens a page that shows the Django formatted person profile, including the associated places.
+    * Column 2 again shows the person id number; selecting this opens a page that shows the JSON formatted person profile.
+    * Column 3 again shows the person id number; selecting this opens a page that shows the JSON formatted places associated with the person.
+    * Column 4 shows the person's name. 
+    * Column 5 again shows the person id number; selecting this opens a Django form that allows you to edit the person information, and resubmit it.
+* The **Create a new Person instance** link at the bottom of the list allows one to create a new person object.
+* There are **Log in|Sign Up** hperlinks at the bottom left to allow one to register an account, and then log in to use the system. 
+* After registering and logging in, more options appear at the bottom left.
+* Next, after logging in, select **List/update/create place** or type **neptune/place-list/** after the home URL. This then shows a page with places, four columns:
+    * Column 1 shows the place id number; selecting this opens the Django formatted place profile.
+    * Column 2 again shows the place id number; selecting this opens a page that shows the JSON formatted place profile.
+    * Column 3 shows the address. 
+    * Column 4 again shows the place id number; selecting this opens a Django form that allows you to edit the place information, and resubmit it.
+* The **Create a new Place instance** link at the bottom of the list allows one to create a new place object. 
+* Note that if a real address is entered into the form, selecting the **Allow geocoder to compute GPS coordinates from Address:** checkbox will fill in the GPS coordinates with the Google GIS database.
+* Also note that the person and place ID is self-generated, and should not be filled in.
+

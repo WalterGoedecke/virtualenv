@@ -1,0 +1,75 @@
+{% extends "neptune/pages/base-plots.html" %}
+
+{% load mezzanine_tags i18n %}
+
+{% block main %}
+	{{ block.super }}
+	{% if request.GET.sent %}
+	    {% editable page.form.response %}
+		    {{ page.form.response|richtext_filters|safe }}
+	    {% endeditable %}
+	{% else %}
+	    {% with page.form as page_form %}
+		    {% editable page_form.content %}
+			    {{ page_form.content|richtext_filters|safe }}
+		    {% endeditable %}
+	    {% endwith %}
+
+		<!-- ------------------------------------- -->
+		<!-- Troubleshooting variables. -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - -->
+		<!-- Special:<br>
+		{{ special }}<br><br> -->
+		<!-- Extraspecial:<br>
+		{{ extraspecial }}<br><br> -->
+		<!-- ------------------------------------- -->
+
+		<!-- ------------------------------------- -->
+		<!-- Place Form. -->
+		<!-- - - - - - - - - - - - - - - - - - - - - - -->
+		<div class=title2>
+	    Place Form
+		</div>
+		<div class=text1>
+	    User may enter the address, GPS coordinates, or let geocoder compute them.  
+		</div>
+		<blockquote>
+			<blockquote>
+		    <!-- If user did neither fill out the Address field nor the GPS 
+		    	coordinates on the form. -->
+				{% if GPS_alert %}
+					<div class=GPS_alert_bold>
+						Error!
+					</div>
+					<div class=GPS_alert>
+						Please fill in either the Address field with checkbox marked, or the GPS_Lat & GPS_Lon fields.
+					</div>
+				{% endif %}
+        <form enctype="multipart/form-data" action="" method="POST"> {% csrf_token %}
+		    {# <form class="mezzanine-form" method="post"{% if form.is_multipart %} action='' enctype="multipart/form-data"{% endif %}> #}
+	        {% fields_for form %}
+	        <div class="form-actions">
+						{% csrf_token %}
+				    <!-- "pf" is profile-form, the form object. -->
+				    <!-- "pf.as_p": in paragraph format. -->
+						<div class="text3">
+					    {{ pf.as_p }}
+		        </div>
+						<br> 
+            <input class="btn btn-primary btn" type="submit"
+              value="{% if page.form.button_text %}{{ page.form.button_text }}{% else %}{% trans "Submit" %}{% endif %}">
+	        </div>
+		    </form>
+			</blockquote>
+		</blockquote>
+		<!-- ------------------------------------- -->
+		    
+	{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+	{{ block.super }}
+	<script>
+		$(function() {$('.mezzanine-form :input:visible:enabled:first').focus();});
+	</script>
+{% endblock %}

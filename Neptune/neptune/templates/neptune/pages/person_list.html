@@ -1,0 +1,77 @@
+{% extends "neptune/pages/page.html" %}
+
+{% load mezzanine_tags %}
+
+{% block main %}{{ block.super }}
+	<!-- Editable feature doesn't work here. -->
+	{# {% editable page.richtextpage.content %} #}
+		{# {{ page.richtextpage.content|richtext_filters|safe }} #}
+	{# {% endeditable %} #}
+	<!-- ----------------------------------- -->
+
+	<div class="row">
+	  <div class="col-sm-3"></div>
+	  <div class="col-sm-6">
+			<h2><center>Person List</center></h2>
+		</div>
+	</div>
+	<br>
+
+  <center>
+		<table style="padding-left:12em;" border="0" cellpadding="2" width="70%">
+	    <tr>
+	      <td class=title3>
+	        Person ID (profile link):
+	      </td>
+	      <td class=title3>
+	        JSON person profile:
+	      </td>
+	      <td class=title3>
+	        JSON places profile:
+	      </td>
+	      <td class=title3>
+	        Name:
+	      </td>
+	      <td class=title3>
+	        Edit:
+	      </td>
+	    </tr>
+	    {% for person in persons %}
+	      <tr>
+	        <td>
+	          <a href={% url 'neptune:person_profile' person.Person_ID %} target=new>
+							{{ person.Person_ID }}
+						</a><br>
+	        </td>
+					<!-- JSON links. -->
+	        <td>
+	          <a href={% url 'neptune:person_profile_json' person.Person_ID %} target=new>
+							{{ person.Person_ID }}
+						</a><br>
+	        </td>
+	        <td>
+	          <a href={% url 'neptune:places_profile_json' person.Person_ID %} target=new>
+							{{ person.Person_ID }}
+						</a><br>
+	        </td>
+	        <td>
+	          <b>{{ person.Name }}</b>
+	        </td>
+					<!-- Link to edit form. -->
+		      <td>
+						<a href="{% url 'neptune:update_person' person.id %}" target="_blank" >
+							{{ person.id }}
+						</a>
+		      </td>
+	      </tr>
+	    {% endfor %}
+		</table>
+	 	<!-- Create new person object. -->
+		<a href="{% url 'neptune:create_person' %}" target="_blank" >
+			Create a new Person instance
+		</a>
+  </center>
+
+  <!-- ------------------------------------- -->
+
+{% endblock %}

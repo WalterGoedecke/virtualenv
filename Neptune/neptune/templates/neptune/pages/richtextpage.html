@@ -1,0 +1,13 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags %}
+
+{% block main %}{{ block.super }}
+
+	{% editable page.richtextpage.content %}
+		{{ page.richtextpage.content|richtext_filters|safe }}
+	{% endeditable %}
+Link 1: 
+<a href="http://127.0.0.1:8000/marker/">James Downen</a>
+
+{% endblock %}
